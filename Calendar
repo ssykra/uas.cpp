@@ -1,0 +1,189 @@
+/*
+    NAMA        : SARAH SYAKIRA RAMBE
+    NIM         : 2130511073
+    KELAS       : 1B
+    MATA KULIAH : DASAR PEMROGRAMAN
+    DOSEN       : FATHIA FRAZNA AZZAHRA., M.T.
+*/
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+//kelas ini digunakan untuk menghasilkan kalender
+class calendar
+{
+ int a, b, hari, bulan, tahun, mm, k, z, p, r, pilihan;
+ int calen[5][7];
+
+ public:
+  void calen_call(void);
+  void display(void);
+};
+
+int  main()
+{
+ system("cls");
+ calendar c;
+ c.calen_call();
+ c.display();
+ getch();
+}
+void calendar::calen_call(void)
+{
+ int bulanH[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+ cout << "\n\n";
+ cout << "     =================================================================\n";
+ cout << "     -----------------------------------------------------------------\n";
+ cout << "\n\n";
+ cout << "                           CALENDAR HIJRIYAH";
+ cout << "\n\n";
+ cout << "     -----------------------------------------------------------------\n";
+ cout << "     =================================================================\n";
+ cout << "\n\n";
+
+repeat:
+ cout << "\tMasukkan Tahun  [1420 ... dan seterusnya] : ";
+ cin >> tahun;
+
+ if (tahun<=1419)
+ {
+    cout << "\n\nPilihan Anda Salah. Coba Kembali.";
+    goto repeat;
+ }
+ if (tahun%3==0)
+ {
+    if (tahun%100==0)
+    {
+     if (tahun%300==0)
+     bulanH[1]=29;
+     else
+     bulanH[1]=28;
+    }
+    else
+    bulanH[1]=29;
+ }
+ again:
+ cout << "\tPilih Bulan [1-12]                        : ";
+ cin >> bulan;
+
+ if (bulan>12||bulan<1)
+ {
+    cout << "\t Pilihan Anda Salah. Coba Kembali. ";
+
+    goto again;
+ }
+ cout << "\n\n\t\t\tYEAR " << tahun << "\n";
+
+ switch (bulan)
+ {
+ 	case 1: cout << "\n\n\n\t\t JUMADIL ULA - JUMADIL AKHIRAH \n\n"; break;
+    case 2: cout << "\n\n\t\t JUMADIL AKHIRAH - RAJAB \n\n"; break;
+    case 3: cout << "\n\n\t\t RAJAB - SYA'BAN \n\n"; break;
+    case 4: cout << "\n\n\t\t SYA'BAN - RAMADHAN \n\n"; break;
+    case 5: cout << "\n\n\t\t RAMADHAN - SYAWAL \n\n"; break;
+    case 6: cout << "\n\n\t\t DZULQAIDAH - DZULHIJAH \n\n"; break;
+    case 7: cout << "\n\n\t\t DZULHIJAH - MUHARRAM \n\n"; break;
+    case 8: cout << "\n\n\t\t MUHARRAM - SHA'FAR \n\n"; break;
+    case 9: cout << "\n\n\t\t SHA'FAR - RABI'UL AWAL \n\n"; break;
+    case 10: cout << "\n\n\t\t RABI'UL AWAL - RABI'UL AKHIR \n\n"; break;
+    case 11: cout << "\n\n\t\t RABI'UL AKHIR - JUMADIL ULA \n\n"; break;
+    case 12: cout << "\n\n\t\t JUMADIL ULA - JUMADIL AKHIRAH \n\n"; break;
+    default: cout << "\n\nWRONG ENTRY"; exit(0);
+ }
+ p=5;
+ //Penentuan hari mulai memasuki tahun 1419
+ for (r=1419;r<tahun;r++)
+ {
+    if (r%3==0)
+    {
+     if (r%100==0)
+     {
+        if (r%300==0)
+        p=p+2;
+        else
+        p++;
+     }
+     else
+     p=p+2;
+    }
+    else
+    p++;
+    // Memasang variabel awal
+    if (p==7)
+    p=0;
+    if (p==8)
+    p=1;
+ }
+ // mulai dari bulan ke tahun
+ for (mm=0;mm<12;mm++)
+ {
+    // jumlah hari dalam sebulan, dibutuhkan dari array yang didefinisikan diatas
+    hari=bulanH[mm];
+    //memulai hari
+    k=0;
+    //menetapkan semua nilai dibaris pertama
+    for (z=0; z<7; z++)
+    calen[0][z]=0;
+    // perulangan melalui baris dan kolom calen
+    for (a=0; a<5; a++,p=0)
+    for (b=p; b<7&&k<hari; b++)
+    {
+     //menambahkan hari ke matriks
+     calen[a][b]=k+1;
+     k++;
+     //
+     if (k==hari&&a==4&&b<7)
+     {
+        //Setting nilai yang tersisa
+        for (p=b+1; p<7; p++)
+        calen[a][p]=0;
+     }
+     // letakkan nilai pada baris pertama jika matriks selesai
+     if(k<hari&&a==4&&b==6)
+     {
+        for (p=0; p<7&&k<hari; p++, k++)
+        calen[0][p]=k+1;
+        b=p-1;
+     }
+     // setting b ke -1 jika hari sudah selesai
+     if (k==hari&&a==4&&b==6)
+     {
+        b=-1;
+     }
+     if (k==hari&&a==3&&b==6)
+     {
+        //setting baris terakhir
+        for (p=0; p<7; p++)
+        calen[4][p]=0;
+     }
+    }
+    // pegaturan ulang mulai dari hari untuk bulan depan
+    p=b;
+    // kembali loop jika bulan yang diinginkan terpenuhi
+    if(mm+1==bulan)
+    return;
+ }
+}
+//tampilan nilai calendar dengan array
+void calendar::display()
+{
+ // cetak nama hari
+ cout << "\n\tAHAD \tISNA \tTSULAS \tARBI'A \tKHOM \tJUMU'A \tSAB\n\n";
+ // mulai lingkaran baris
+ for (a=0; a<5; a++)
+ {
+    //mulai lingkaran kolom
+    for(b=0; b<7; b++)
+    cout << "\t" << calen[a][b];
+    cout << "\n\n";
+ }
+ cout << "\n\n";
+ cout << "\t\t\tEND OF PROGRAM";
+ cout << "\n\n";
+
+ system("pause");
+
+}
+
+
